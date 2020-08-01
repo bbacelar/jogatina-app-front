@@ -27,7 +27,8 @@ export default {
     leave: 'Leave',
     enter: 'Enter',
     date: 'Date',
-    image: 'Image'
+    image: 'Image',
+    home: 'Home'
   },
   locale: {
     title: 'Idiom',
@@ -37,5 +38,10 @@ export default {
   validation: {
     required: 'Field is required'
 
+  },
+  home: {
+    groups: 'My groups',
+    plays: 'Number of plays',
+    next_play: 'Next play'
   }
 };

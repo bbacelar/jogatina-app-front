@@ -27,7 +27,8 @@ export default {
     enter: 'Participar',
     leave: 'Sair',
     date: 'Data',
-    image: 'Imagem'
+    image: 'Imagem',
+    home: 'Início'
   },
   locale: {
     title: 'Idioma',
@@ -36,5 +37,10 @@ export default {
   },
   validation: {
     required: 'Campo obrigatório'
+  },
+  home: {
+    groups: 'Meus grupos',
+    plays: 'Qtd. partidas',
+    next_play: 'Próxima partida'
   }
 };

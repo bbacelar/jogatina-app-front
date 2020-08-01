@@ -212,7 +212,7 @@ export default {
     }
   },
   async mounted () {
-    this.$state.title = 'Play Detail';
+    this.$state.title = this.$tc('labels.play', 1);
     await this.fetchData();
   },
   methods: {

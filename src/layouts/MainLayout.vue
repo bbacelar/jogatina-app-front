@@ -84,6 +84,11 @@ export default {
       leftDrawerOpen: false,
       essentialLinks: [
         {
+          title: 'home',
+          icon: 'fas fa-home',
+          link: '/home'
+        },
+        {
           title: 'play',
           icon: 'fas fa-dice',
           link: '/play-list'
