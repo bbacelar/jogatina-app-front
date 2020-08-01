@@ -5,6 +5,35 @@
       class="row q-pa-md q-col-gutter-md"
     >
       <div class="col-md-4 col-xs-12">
+        <HomeCard :header="$t('home.next_play')">
+          <template v-if="userStats.playsCount > 0">
+            <div class="text-h6 text-center text-secondary">
+              {{ nextPlay.bg_name }}
+            </div>
+            <q-separator />
+            <q-card-actions align="center">
+              <q-chip
+                dense
+                square
+                icon="fas fa-map-marker-alt"
+              >
+                {{ nextPlay.play_location }}
+              </q-chip>
+              <q-chip
+                dense
+                square
+                icon="fas fa-calendar"
+              >
+                {{ formatDate(nextPlay.play_date) }}
+              </q-chip>
+            </q-card-actions>
+          </template>
+          <p v-else>
+            --
+          </p>
+        </HomeCard>
+      </div>
+      <div class="col-md-4 col-xs-12">
         <HomeCard :header="$t('home.plays', 2)">
           <div class="text-h6 text-center text-secondary">
             {{ userStats.playsCount }}
@@ -26,31 +55,13 @@
           </q-list>
         </HomeCard>
       </div>
-      <div class="col-md-4 col-xs-12">
-        <HomeCard :header="$t('home.next_play')">
-          <div class="text-h6 text-center text-secondary">
-            {{ nextPlay.bg_name }}
-          </div>
-          <q-separator />
-          <q-card-actions align="center">
-            <q-chip
-              dense
-              square
-              icon="fas fa-map-marker-alt"
-            >
-              {{ nextPlay.play_location }}
-            </q-chip>
-            <q-chip
-              dense
-              square
-              icon="fas fa-calendar"
-            >
-              {{ formatDate(nextPlay.play_date) }}
-            </q-chip>
-          </q-card-actions>
-        </HomeCard>
-      </div>
     </div>
+    <q-inner-loading :showing="!isLoaded">
+      <q-spinner-gears
+        size="50px"
+        color="primary"
+      />
+    </q-inner-loading>
   </q-page>
 </template>
 
