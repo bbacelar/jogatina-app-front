@@ -67,7 +67,7 @@
           align="justify"
         >
           <q-tab
-            :label="`${$tc('labels.player', 2)} (${players.length}/${currentPlay.bg_max_players})`"
+            :label="`${$tc('labels.player', 2)} (${players.length}/${localPlay.bg_max_players})`"
             name="players"
           />
         </q-tabs>
@@ -171,8 +171,8 @@
 
 <script>
 import EditPlay from 'src/components/plays/EditPlay.vue';
-import usersController from 'src/services/users';
-import { addUser, deleteUser, deletePlay } from 'src/services/plays';
+import usersService from 'src/services/users';
+import { addUser, deleteUser, deletePlay, getPlayById } from 'src/services/plays';
 import { date } from 'quasar';
 const { formatDate } = date;
 export default {
@@ -181,15 +181,15 @@ export default {
     EditPlay
   },
   props: {
-    currentPlay: {
-      type: Object,
-      default: null
+    playId: {
+      type: String,
+      default: undefined
     }
   },
   data () {
     return {
       loading: true,
-      localPlay: { ...this.currentPlay },
+      localPlay: {},
       players: [],
       tab: 'players',
       editPlay: false
@@ -217,11 +217,16 @@ export default {
   },
   methods: {
     async fetchData () {
+      await this.getPlay();
       await this.getPlayers();
+    },
+    async getPlay () {
+      const response = await getPlayById(this.playId);
+      this.localPlay = response.data;
     },
     async getPlayers () {
       try {
-        const response = await usersController.getUsersByPlayId(this.localPlay.id);
+        const response = await usersService.getUsersByPlayId(this.localPlay.id);
         this.players = response.data;
       } catch {
         this.$q.notify({ type: 'negative', message: 'Error on retrieve play' });

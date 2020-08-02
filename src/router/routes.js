@@ -1,7 +1,7 @@
 import { authGuard } from '../auth/authGuard';
 
+const PlayDetails = () => import(/* webpackChunkName: "play-detail" */'pages/plays/PlayDetail.vue');
 const routes = [
-  // { path: '/login', name: 'Login', component: () => import('pages/Login.vue') },
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
@@ -17,7 +17,7 @@ const routes = [
             path: 'play/:playId',
             name: 'play-detail',
             props: true,
-            component: () => import(/* webpackChunkName: "play-detail" */'pages/plays/PlayDetail.vue')
+            component: PlayDetails
           }
         ]
       },
@@ -27,7 +27,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "groups" */'pages/groups/Groups.vue'),
         children: [
           {
-            path: ':grpId',
+            path: ':groupId',
             name: 'group-detail',
             props: true,
             component: () => import(/* webpackChunkName: "groups" */'pages/groups/GroupDetail.vue'),
@@ -36,7 +36,7 @@ const routes = [
                 path: 'play/:playId',
                 name: 'group-play-detail',
                 props: true,
-                component: () => import(/* webpackChunkName: "play-detail" */'pages/plays/PlayDetail.vue')
+                component: PlayDetails
               }
             ]
           }

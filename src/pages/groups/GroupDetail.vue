@@ -193,9 +193,8 @@
       </q-inner-loading>
     </div>
     <router-view
-      v-else-if="currentPlay"
+      v-else
       :key="$route.path"
-      :current-play="currentPlay"
       @update:play="refreshPlays()"
     />
   </transition>
@@ -212,9 +211,9 @@ export default {
     EditGroup
   },
   props: {
-    currentGroup: {
-      type: Object,
-      default: null
+    groupId: {
+      type: String,
+      default: undefined
     }
   },
   data () {
@@ -223,7 +222,8 @@ export default {
       editGroup: false,
       users: [],
       loading: true,
-      plays: []
+      plays: [],
+      selectedGroup: {}
     };
   },
   computed: {
@@ -235,15 +235,6 @@ export default {
     },
     isParentRoute () {
       return this.$route.name === 'group-detail';
-    },
-    selectedGroup () {
-      return { ...this.currentGroup };
-    },
-    routeParam () {
-      return this.$route.params.playId;
-    },
-    currentPlay () {
-      return this.plays.find(({ id }) => id === this.routeParam);
     }
   },
   watch: {
@@ -260,6 +251,7 @@ export default {
     async fetchData () {
       try {
         this.loading = true;
+        await this.getGroup();
         await this.getUsers();
         await this.getPlays();
       } catch (error) {
@@ -279,6 +271,10 @@ export default {
         name: 'group-play-detail',
         params: { playId: playToShow.id }
       });
+    },
+    async getGroup () {
+      const response = await groupsService.getGroupById(this.groupId);
+      this.selectedGroup = response.data;
     },
     async getUsers () {
       try {

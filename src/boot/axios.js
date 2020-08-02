@@ -43,6 +43,10 @@ export default ({ store, router }) => {
           });
           break;
         default:
+          Notify.create({
+            type: 'negative',
+            message: 'Unknown error'
+          });
           break;
       }
       return Promise.reject(error);

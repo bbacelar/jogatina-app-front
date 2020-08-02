@@ -76,9 +76,8 @@
       </q-page>
     </div>
     <router-view
-      v-else-if="currentRecord"
+      v-else
       key="router"
-      :current-group="currentRecord"
       @refresh="getGroups"
     />
   </transition>
@@ -111,14 +110,6 @@ export default {
   computed: {
     isParentRoute () {
       return this.$route.name === 'groups';
-    },
-    currentRecord () {
-      return this.groups.find(
-        item => item.id === this.routeParam
-      );
-    },
-    routeParam () {
-      return this.$route.params.grpId;
     }
   },
   watch: {
@@ -134,7 +125,7 @@ export default {
     goToGroupDetail (evt, row) {
       this.$router.push({
         name: 'group-detail',
-        params: { grpId: row.id }
+        params: { groupId: row.id }
       });
     },
     async getGroups () {

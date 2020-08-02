@@ -105,9 +105,8 @@
       </q-page>
     </template>
     <router-view
-      v-else-if="currentPlay"
+      v-else
       :key="$route.path"
-      :current-play="currentPlay"
       @update:play="refreshPlays"
     />
   </transition>
@@ -115,7 +114,7 @@
 
 <script>
 import PlayCard from 'src/components/plays/PlayCard.vue';
-import playsController from 'src/services/plays';
+import playsService from 'src/services/plays';
 export default {
   name: 'PlayList',
   components: {
@@ -143,52 +142,23 @@ export default {
           label: this.$t('labels.date'),
           field: 'play_date',
           align: 'left',
-          format: val => {
-            return new Date(val).toLocaleString();
-          }
+          format: val => { return new Date(val).toLocaleString(); }
         },
-        {
-          name: 'minPlayers',
-          label: `Min ${this.$tc('labels.player', 2)}`,
-          field: 'bg_min_players',
-          align: 'left'
-        },
-        {
-          name: 'maxPlayers',
-          label: `Max ${this.$tc('labels.player', 2)}`,
-          field: 'bg_max_players',
-          align: 'left'
-        },
-        {
-          name: 'playingTime',
-          label: this.$t('play.playing_time'),
-          field: 'bg_playing_time',
-          align: 'left'
-        },
-        {
-          name: 'userOwnerId',
-          label: 'userOwnerId',
-          field: 'user_owner_id',
-          align: 'left'
-        }
+        { name: 'minPlayers', label: `Min ${this.$tc('labels.player', 2)}`, field: 'bg_min_players', align: 'left' },
+        { name: 'maxPlayers', label: `Max ${this.$tc('labels.player', 2)}`, field: 'bg_max_players', align: 'left' },
+        { name: 'playingTime', label: this.$t('play.playing_time'), field: 'bg_playing_time', align: 'left' },
+        { name: 'userOwnerId', label: 'userOwnerId', field: 'user_owner_id', align: 'left' }
       ]
     };
   },
   computed: {
     isParentRoute () {
       return this.$route.name === 'play-list';
-    },
-    currentPlay () {
-      return this.plays.find(row => row.id === this.routeParam);
-    },
-    routeParam () {
-      return this.$route.params.playId;
     }
   },
   watch: {
     async '$route.name' (newValue) {
       this.$state.title = newValue === 'play-list' ? this.$tc('labels.play', 2) : this.$state.title;
-      await this.getPlays();
     }
   },
   async mounted () {
@@ -199,7 +169,7 @@ export default {
     async getPlays () {
       try {
         this.loading = true;
-        const result = await playsController.getPlays();
+        const result = await playsService.getPlays();
         this.plays = result.data;
       } catch {
         this.$q.notify({ type: 'negative', message: 'Error on retrieve plays' });
