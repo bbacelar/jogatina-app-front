@@ -101,7 +101,6 @@
                   >
                     <q-scroll-area class="fit">
                       <q-list
-                        bordered
                         separator
                         :dense="$q.screen.xs"
                       >

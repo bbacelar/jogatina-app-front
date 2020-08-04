@@ -15,14 +15,18 @@
               <q-chip
                 dense
                 square
+                outline
                 icon="fas fa-map-marker-alt"
+                color="primary"
               >
                 {{ nextPlay.play_location }}
               </q-chip>
               <q-chip
                 dense
                 square
-                icon="fas fa-calendar"
+                outline
+                icon="fas fa-calendar-day"
+                color="primary"
               >
                 {{ formatDate(nextPlay.play_date) }}
               </q-chip>
@@ -42,13 +46,17 @@
       </div>
       <div class="col-md-4 col-xs-12">
         <HomeCard :header="$t('home.groups', 2)">
-          <q-list dense>
+          <q-list
+            dense
+            separator
+          >
             <q-item
               v-for="group in userGroups"
-              :key="group.name"
+              :key="group.id"
               v-ripple
               clickable
               class="text-secondary"
+              :to="{ name: 'group-detail', params: { groupId: group.id } }"
             >
               {{ group.name }}
             </q-item>
